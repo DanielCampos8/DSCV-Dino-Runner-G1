@@ -51,7 +51,6 @@ class Dinosaur(pygame.sprite.Sprite):
             self.jump_velocity = self.j_velocity
             self.action = DINO_RUNING
             self.rect.y = self.P_y
-            self.jump_velocity = 8.5
 
     def duck(self):
         self.image = DUCKING[self.step//5]
