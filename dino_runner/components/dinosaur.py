@@ -53,10 +53,11 @@ class Dinosaur(pygame.sprite.Sprite):
             self.rect.y = self.P_y
 
     def duck(self):
+        self.new_y = self.P_y + 34
         self.image = DUCKING[self.step//5]
         self.rect = self.image.get_rect()
         self.rect.x = self.P_x
-        self.rect.y = self.P_y + 34
+        self.rect.y = self.new_y
         self.step += 1
 
     def draw(self,screen):
