@@ -8,7 +8,6 @@ class Bird(Obstacle):
         self.step = 0
         self.image = BIRD[self.step//5]
         super().__init__(self.image)
-        self.rect = self.image.get_rect()
         self.rect.y = random.randint(220, 350)
         self.step += 1
 

@@ -36,15 +36,12 @@ class Dinosaur(pygame.sprite.Sprite):
             self.step = 0
 
     def run(self):
-        self.image = RUNNING[self.step//5]
-        self.rect = self.image.get_rect()
-        self.rect.x = self.P_x
-        self.rect.y = self.P_y
+        self.update_image(RUNNING[self.step//5])
         self.step += 1
 
     def jump(self):
-        self.image = JUMPING
-        self.rect.y -= self.jump_velocity * 4
+        pos_y=self.rect.y - self.jump_velocity * 4
+        self.update_image(JUMPING,pos_y=pos_y)
         self.jump_velocity -= 0.8
         print("VELOCITY ::", self.jump_velocity)
         if self.jump_velocity <= -self.j_velocity:
@@ -53,12 +50,14 @@ class Dinosaur(pygame.sprite.Sprite):
             self.rect.y = self.P_y
 
     def duck(self):
-        self.new_y = 340
-        self.image = DUCKING[self.step//5]
-        self.rect = self.image.get_rect()
-        self.rect.x = self.P_x
-        self.rect.y = self.new_y
+        self.update_image(DUCKING[self.step//5],pos_y=340)
         self.step += 1
+
+    def update_image(self,image: pygame.Surface, pos_x = None,pos_y = None):
+        self.image = image
+        self.rect = image.get_rect()
+        self.rect.x = pos_x or self.P_x
+        self.rect.y = pos_y or self.P_y
 
     def draw(self,screen):
         screen.blit(self.image,(self.rect.x, self.rect.y))
