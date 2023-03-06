@@ -47,7 +47,7 @@ class Dinosaur(pygame.sprite.Sprite):
         self.rect.y -= self.jump_velocity * 4
         self.jump_velocity -= 0.8
         print("VELOCITY ::", self.jump_velocity)
-        if self.jump_velocity < -self.j_velocity:
+        if self.jump_velocity <= -self.j_velocity:
             self.jump_velocity = self.j_velocity
             self.action = DINO_RUNING
             self.rect.y = self.P_y
