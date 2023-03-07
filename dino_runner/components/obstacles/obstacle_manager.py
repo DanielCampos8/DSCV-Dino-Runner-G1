@@ -8,12 +8,12 @@ class ObstacleManager:
 
     def update(self,game_speed,player,game):
         if not self.obstacles:
-            obc = random.randint(0,2)
-            if obc == 0:
+            ob = random.randint(0,2)
+            if ob == 0:
                 self.obstacles.append(CactusB())
-            elif obc == 1:
+            elif ob == 1:
                 self.obstacles.append(CactusS())
-            elif obc == 2:
+            elif ob == 2:
                 bird = Bird()
                 self.obstacles.append(bird)
         for obstacle in self.obstacles:
