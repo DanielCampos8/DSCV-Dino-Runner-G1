@@ -14,8 +14,7 @@ class ObstacleManager:
             elif ob == 1:
                 self.obstacles.append(CactusS())
             elif ob == 2:
-                bird = Bird()
-                self.obstacles.append(bird)
+                self.obstacles.append(Bird())
         for obstacle in self.obstacles:
             obstacle.update(game_speed, self.obstacles)
             if player.rect.colliderect(obstacle.rect):
