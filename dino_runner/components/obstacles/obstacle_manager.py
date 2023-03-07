@@ -7,7 +7,7 @@ class ObstacleManager:
     def __init__(self):
         self.obstacles = []
 
-    def update(self,game_speed,player,game):
+    def update(self,game_speed,player,on_death):
         if not self.obstacles:
             ob = random.randint(0,2)
             if ob == 0:
@@ -21,8 +21,11 @@ class ObstacleManager:
             obstacle.update(game_speed, self.obstacles)
             if player.rect.colliderect(obstacle.rect):
                 pygame.time.delay(500)
-                game.playing = False
+                on_death()
 
     def draw(self,screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+
+    def reset(self):
+        self.obstacles = []
