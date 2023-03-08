@@ -73,3 +73,4 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 DEFAULT_TYPE = "default"
 
 FONT_TIPE = "freesansbold.ttf"
+
