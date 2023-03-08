@@ -91,7 +91,7 @@ class Game:
             attemp =f"death:{self.death_count}"
             score =f"score:{self.score.update(self, self.playing)}"
             #mostrar mensaje para que reinicie,cuantas veces muere
-            self.text(half_screen_width, half_screen_height,"you lose",32)
+            self.text(half_screen_width, half_screen_height,"game over",32)
             self.text(half_screen_width, death_text,attemp,20)
             self.text(half_screen_width, score_text,score,20)
             self.text(half_screen_width, restart_text,"press any key to restart",15)
