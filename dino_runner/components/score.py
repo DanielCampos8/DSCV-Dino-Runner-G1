@@ -1,5 +1,5 @@
 import pygame
-from dino_runner.utils.constants import FONT_TIPE, SCORE
+from dino_runner.utils.constants import FONT_TIPE
 
 class Score:
     def __init__(self):
