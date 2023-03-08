@@ -2,8 +2,8 @@ import pygame
 from dino_runner.utils.constants import FONT_TIPE
 
 class Score:
-    def __init__(self,score):
-        self.score = score
+    def __init__(self):
+        self.score = 0
 
     def update(self,game,playing):
         if playing==True:
@@ -14,6 +14,9 @@ class Score:
             game.game_speed += 2
 
         return self.score
+
+    def reset(self):
+        self.score = 0
 
     def draw(self,screen):
         font = pygame.font.Font(FONT_TIPE, 32)

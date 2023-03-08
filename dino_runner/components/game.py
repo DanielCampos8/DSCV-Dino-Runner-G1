@@ -18,11 +18,10 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.death_count = 0
-        self.score_count = 0
 
         self.player = Dinosaur()
         self.manager = ObstacleManager()
-        self.score = Score(self.score_count)
+        self.score = Score()
 
     def run(self):
         self.executing = True
@@ -34,7 +33,9 @@ class Game:
 
     def start_game(self):
         # Game loop: events - update - draw
+        self.game_speed = 20
         self.playing = True
+        self.score.reset()
         self.manager.reset()
         while self.playing:
             self.events()
