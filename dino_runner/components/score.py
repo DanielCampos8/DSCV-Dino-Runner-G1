@@ -6,9 +6,9 @@ class Score:
         self.score = 0
 
     def update(self,game,playing):
-        if playing==True:
+        if playing:
             self.score += 1
-        elif playing == False:
+        elif not playing:
             self.score -= 0
         if self.score % 100 == 0:
             game.game_speed += 2
