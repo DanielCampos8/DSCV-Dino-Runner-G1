@@ -1,20 +1,30 @@
 import pygame
-from dino_runner.utils.constants import RUNNING,JUMPING,DUCKING
+from dino_runner.components.text import Text
+from dino_runner.utils.constants import DEFAULT_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING,JUMPING,DUCKING, RUNNING_SHIELD, SCREEN_WIDTH, SHIELD_TYPE
 DINO_RUNING = 'runing'
 DINO_JUMPING = 'jumping'
 DINO_DUCK = 'duck'
+
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}
 class Dinosaur(pygame.sprite.Sprite):
     P_x = 80
     P_y = 310
     j_velocity = 8.5
     def __init__(self):
-        self.image = RUNNING[0]
+        self.half_screen_width = SCREEN_WIDTH // 2
+        self.tipe = DEFAULT_TYPE
+        self.power_up_time_up = 0
+        self.update_image(RUN_IMG[self.tipe][0])
         self.rect = self.image.get_rect()
         self.rect.x = self.P_x
         self.rect.y = self.P_y
         self.step = 0
         self.action = DINO_RUNING
         self.jump_velocity = self.j_velocity
+
+        self.text = Text()
 
     def update(self,user_imput):
         if self.action == DINO_RUNING:
@@ -36,12 +46,12 @@ class Dinosaur(pygame.sprite.Sprite):
             self.step = 0
 
     def run(self):
-        self.update_image(RUNNING[self.step//5])
+        self.update_image(RUN_IMG[self.tipe][self.step//5])
         self.step += 1
 
     def jump(self):
         pos_y=self.rect.y - self.jump_velocity * 4
-        self.update_image(JUMPING,pos_y=pos_y)
+        self.update_image(JUMP_IMG[self.tipe],pos_y=pos_y)
         self.jump_velocity -= 0.8
         print("VELOCITY ::", self.jump_velocity)
         if self.jump_velocity <= -self.j_velocity:
@@ -50,7 +60,7 @@ class Dinosaur(pygame.sprite.Sprite):
             self.rect.y = self.P_y
 
     def duck(self):
-        self.update_image(DUCKING[self.step//5],pos_y=340)
+        self.update_image(DUCK_IMG[self.tipe][self.step//5],pos_y=340)
         self.step += 1
 
     def update_image(self,image: pygame.Surface, pos_x = None,pos_y = None):
@@ -62,4 +72,15 @@ class Dinosaur(pygame.sprite.Sprite):
     def draw(self,screen):
         screen.blit(self.image,(self.rect.x, self.rect.y))
 
-dinosaur = Dinosaur()
+    def on_pick_power_up(self, power_up):
+        self.tipe = power_up.type
+        self.power_up_time_up = power_up.start_time + (power_up.duration * 1000)
+
+    def check_power_up(self, screen):
+        if self.tipe == SHIELD_TYPE:
+            time_to_show = round((self.power_up_time_up - pygame.time.get_ticks()) / 1000, 2)
+            if time_to_show >= 0:
+                self.text.show(self.half_screen_width,50,f"{self.tipe.capitalize()} enabled for {time_to_show} seconds.",18,screen)
+            else:
+                self.tipe = DEFAULT_TYPE
+                self.power_up_time_up = 0
