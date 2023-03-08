@@ -85,16 +85,16 @@ class Game:
         if not self.death_count:
             self.text(half_screen_width, half_screen_height,"Welcome, press any key to start!",32)
         else:
-            death_text = half_screen_height + 40
-            score_text = half_screen_height + 65
-            restart_text = half_screen_height + 80
+            death_text_y = half_screen_height + 40
+            score_text_y = half_screen_height + 65
+            restart_text_y = half_screen_height + 80
             attemp =f"death:{self.death_count}"
             score =f"score:{self.score.update(self, self.playing)}"
             #mostrar mensaje para que reinicie,cuantas veces muere
             self.text(half_screen_width, half_screen_height,"game over",32)
-            self.text(half_screen_width, death_text,attemp,20)
-            self.text(half_screen_width, score_text,score,20)
-            self.text(half_screen_width, restart_text,"press any key to restart",15)
+            self.text(half_screen_width, death_text_y,attemp,20)
+            self.text(half_screen_width, score_text_y,score,20)
+            self.text(half_screen_width, restart_text_y,"press any key to restart",15)
             pass
             #icono al centro
         self.screen.blit(DINO_START,(half_screen_width -
