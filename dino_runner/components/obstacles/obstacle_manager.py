@@ -3,6 +3,8 @@ from dino_runner.components.obstacles.largecactus import LargeCactus
 from dino_runner.components.obstacles.bird import Bird
 import pygame
 import random
+
+from dino_runner.utils.constants import DINO_DEAD
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []

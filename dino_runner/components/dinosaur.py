@@ -1,13 +1,13 @@
 import pygame
 from dino_runner.components.text import Text
-from dino_runner.utils.constants import DEFAULT_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING,JUMPING,DUCKING, RUNNING_SHIELD, SCREEN_WIDTH, SHIELD_TYPE
+from dino_runner.utils.constants import DEFAULT_TYPE, DUCKING_HAMMER, DUCKING_SHIELD, HAMMER_TYPE, HEART_TYPE, JUMPING_HAMMER, JUMPING_SHIELD, RUNNING,JUMPING,DUCKING, RUNNING_HAMMER, RUNNING_SHIELD, SCREEN_WIDTH, SHIELD_TYPE
 DINO_RUNING = 'runing'
 DINO_JUMPING = 'jumping'
 DINO_DUCK = 'duck'
 
-DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
-JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
-RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, HEART_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER }
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, HEART_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, HEART_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
 class Dinosaur(pygame.sprite.Sprite):
     P_x = 80
     P_y = 310
@@ -33,7 +33,7 @@ class Dinosaur(pygame.sprite.Sprite):
             self.jump()
         elif self.action == DINO_DUCK:
             self.duck()
-        
+
         #actions
         if user_imput[pygame.K_UP]:
             self.action = DINO_JUMPING
@@ -77,7 +77,7 @@ class Dinosaur(pygame.sprite.Sprite):
         self.power_up_time_up = power_up.start_time + (power_up.duration * 1000)
 
     def check_power_up(self, screen):
-        if self.tipe == SHIELD_TYPE:
+        if self.tipe == SHIELD_TYPE or self.tipe == HAMMER_TYPE or self.tipe == HEART_TYPE:
             time_to_show = round((self.power_up_time_up - pygame.time.get_ticks()) / 1000, 2)
             if time_to_show >= 0:
                 self.text.show(self.half_screen_width,50,f"{self.tipe.capitalize()} enabled for {time_to_show} seconds.",18,screen)

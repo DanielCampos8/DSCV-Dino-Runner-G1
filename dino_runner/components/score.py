@@ -1,5 +1,5 @@
 import pygame
-from dino_runner.utils.constants import FONT_TIPE
+from dino_runner.utils.constants import HAMMER_TYPE, HEART_TYPE
 from dino_runner.components.text import Text
 
 class Score:
@@ -8,13 +8,23 @@ class Score:
         self.max_score = 0
         self.text = Text()
 
-    def update(self,game,playing):
+    def update(self,game,playing,power_up):
+        self.tipe = power_up
         if playing:
             self.score += 1
         elif not playing:
             self.score -= 0
-        if self.score % 100 == 0:
+        #si tiene el martillo baja la velocidad del juego    
+        if self.tipe == HAMMER_TYPE:
+            game.game_speed = 20
+        elif self.score % 100 == 0:
             game.game_speed += 2
+        #si agarra el corazon acelera el juego
+        if self.tipe == HEART_TYPE and self.score % 20 == 0:
+            game.game_speed += 2
+        elif self.score % 100 == 0:
+            game.game_speed += 2
+         
 
         return self.score
 

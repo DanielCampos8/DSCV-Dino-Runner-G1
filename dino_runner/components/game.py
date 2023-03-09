@@ -1,9 +1,10 @@
+from random import randint
 import pygame
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 from dino_runner.components.text import Text
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD_TYPE, TITLE, FPS, FONT_TIPE, DINO_START
+from dino_runner.utils.constants import BG, DINO_DEAD, GAME_OVER, ICON, RESET, SCREEN_HEIGHT, SCREEN_WIDTH, SHIELD_TYPE, TITLE, FPS, DINO_START
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
@@ -30,7 +31,8 @@ class Game:
     def run(self):
         self.executing = True
         while self.executing:
-            if not self.playing:
+            if not self.playing :
+                pygame.time.delay(1000)
                 self.show_menu()
 
         pygame.quit()
@@ -56,7 +58,7 @@ class Game:
         user_imput = pygame.key.get_pressed()
         self.player.update(user_imput)
         self.manager.update(self.game_speed,self.player,self.on_death)
-        self.score.update(self,self.playing)
+        self.score.update(self,self.playing,self.player.tipe)
         self.score.update_max_score()
         self.power_ups_manager.update(self.game_speed, self.score.score, self.player)
 
@@ -84,12 +86,14 @@ class Game:
     def on_death(self):
         is_invincible = self.player.tipe == SHIELD_TYPE
         if not is_invincible:
+            self.player.update_image(DINO_DEAD,pos_y=self.player.rect.y)
             self.playing = False
             self.death_count +=1
-
+        
     def show_menu(self):
         #pantalla en blanco 
         self.screen.fill((255,255,255))
+        
         #mensaje de bienvenida centrado
         self.half_screen_width = SCREEN_WIDTH // 2
         half_screen_height = SCREEN_HEIGHT // 2
@@ -97,16 +101,17 @@ class Game:
             self.text.show(self.half_screen_width, half_screen_height,"Welcome, press any key to start!",32,self.screen)
         else:
             attemp =f"death:{self.death_count}"
-            score =f"score:{self.score.update(self, self.playing)}"
-            death_text_y = half_screen_height + 40
-            score_text_y = half_screen_height + 65
-            restart_text_y = half_screen_height + 80
+            score =f"score:{self.score.update(self, self.playing,self.player.tipe)}"
+            death_text_y = half_screen_height + 50
+            score_text_y = half_screen_height + 75
+            restart_text_y = half_screen_height + 170
             x=self.half_screen_width
 
             #mostrar mensaje para que reinicie,cuantas veces muere
-            self.text.show(x,half_screen_height,"game over",32,self.screen)
+            self.screen.blit(GAME_OVER,(self.half_screen_width - 185, half_screen_height))
             self.text.show(x,death_text_y,attemp,20,self.screen)
             self.text.show(x,score_text_y,score,20,self.screen)
+            self.screen.blit(RESET,(self.half_screen_width - 40, half_screen_height + 90))
             self.text.show(x,restart_text_y,"press any key to restart",15,self.screen)
             pass
             #icono al centro
