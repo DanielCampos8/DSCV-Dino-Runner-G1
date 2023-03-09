@@ -15,12 +15,12 @@ class Score:
         elif not playing:
             self.score -= 0
         #si tiene el martillo baja la velocidad del juego    
-        if self.tipe == HAMMER_TYPE:
+        if self.tipe == HEART_TYPE:
             game.game_speed = 20
         elif self.score % 100 == 0:
             game.game_speed += 2
         #si agarra el corazon acelera el juego
-        if self.tipe == HEART_TYPE and self.score % 20 == 0:
+        if self.tipe == HAMMER_TYPE and self.score % 20 == 0:
             game.game_speed += 2
         elif self.score % 100 == 0:
             game.game_speed += 2
